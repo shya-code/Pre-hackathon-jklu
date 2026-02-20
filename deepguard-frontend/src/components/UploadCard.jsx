@@ -8,10 +8,10 @@ const ACCEPTED = {
 }
 
 const SCANNING_STEPS = [
-    'Analyzing patterns…',
-    'Checking compression artifacts…',
-    'Detecting GAN traces…',
-    'Generating forensic report…',
+    'Analyzing visual patterns…',
+    'Running AI detection model…',
+    'Evaluating authenticity…',
+    'Generating feedback…',
 ]
 
 export default function UploadCard({ onResult }) {

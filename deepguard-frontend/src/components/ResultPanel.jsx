@@ -66,7 +66,7 @@ export default function ResultPanel({ result, onReset }) {
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                     <h3 className="text-lg font-bold text-navy mb-3 flex items-center gap-2">
                         <AlertTriangle className="w-5 h-5 text-brand-blue" />
-                        Forensic Report
+                        Feedback
                     </h3>
                     <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 min-h-[60px]">
                         <div className="text-soft-gray text-sm leading-relaxed whitespace-pre-line break-words overflow-wrap-anywhere">

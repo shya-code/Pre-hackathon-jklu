@@ -57,7 +57,7 @@ def generate_explanation(score: float, verdict: str, file_type: str = "image") -
         response = model.generate_content(
             user_message,
             generation_config=genai.types.GenerationConfig(
-                max_output_tokens=200,
+                max_output_tokens=500,
             ),
         )
 

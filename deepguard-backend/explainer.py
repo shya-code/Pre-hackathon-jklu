@@ -50,14 +50,14 @@ def generate_explanation(score: float, verdict: str, file_type: str = "image") -
     try:
         print("[Explainer] Calling Gemini API...")
         model = genai.GenerativeModel(
-            model_name="gemini-2.5-flash",
+            model_name="gemini-2.0-flash",
             system_instruction=SYSTEM_PROMPT,
         )
 
         response = model.generate_content(
             user_message,
             generation_config=genai.types.GenerationConfig(
-                max_output_tokens=500,
+                max_output_tokens=1024,
             ),
         )
 

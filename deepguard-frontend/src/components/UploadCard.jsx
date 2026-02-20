@@ -39,38 +39,55 @@ export default function UploadCard({ onResult }) {
         setScanStep(0)
         const stepInterval = setInterval(() => {
             setScanStep(prev => Math.min(prev + 1, SCANNING_STEPS.length - 1))
-        }, 1500) // update steps while waiting
+        }, 1500)
 
         try {
             const formData = new FormData()
-            formData.append('file', selectedFile) // assuming 'file' is the expected key
+            formData.append('file', selectedFile)
+
+            console.log('[DeepGuard] Sending file to backend:', selectedFile.name)
+
+            // Create an AbortController for timeout (120s for Render cold-start + Gemini)
+            const controller = new AbortController()
+            const timeoutId = setTimeout(() => controller.abort(), 120000)
 
             const response = await fetch('https://pre-hackathon-jklu.onrender.com/analyze', {
                 method: 'POST',
                 body: formData,
+                signal: controller.signal,
             })
 
+            clearTimeout(timeoutId)
+            console.log('[DeepGuard] Response status:', response.status)
+
             if (!response.ok) {
+                const errorText = await response.text()
+                console.error('[DeepGuard] Server error body:', errorText)
                 throw new Error(`Server error: ${response.status}`)
             }
 
             const data = await response.json()
+            console.log('[DeepGuard] Backend response:', data)
 
             clearInterval(stepInterval)
             setScanning(false)
 
-            // Map backend response safely (falling back to defaults if mapping differs)
             onResult({
-                verdict: data.verdict?.toUpperCase() || 'SUSPICIOUS', // e.g., 'FAKE', 'REAL'
-                score: data.score != null ? data.score : 0.85, // assuming 0-1 range or 0-100
-                explanation: data.explanation || data.report || 'Analysis complete. Please refer to score.',
+                verdict: data.verdict?.toUpperCase() || 'SUSPICIOUS',
+                score: data.score != null ? data.score : 0.5,
+                explanation: data.explanation || data.report || 'Analysis complete. Manual review recommended.',
             })
 
         } catch (error) {
-            console.error('API Error:', error)
+            console.error('[DeepGuard] API Error:', error)
             clearInterval(stepInterval)
             setScanning(false)
-            alert('Failed to connect to the backend. ' + error.message)
+
+            if (error.name === 'AbortError') {
+                alert('Request timed out. The backend server may be starting up (cold start). Please try again in 30 seconds.')
+            } else {
+                alert('Failed to connect to the backend. ' + error.message)
+            }
         }
     }
 

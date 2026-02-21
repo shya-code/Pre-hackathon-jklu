@@ -19,9 +19,12 @@ export default {
         },
       },
       animation: {
-        'fade-in': 'fadeIn 0.6s ease-out forwards',
+        fadeIn: 'fadeIn 0.8s ease-out forwards',
+        slideUp: 'slideUp 0.6s ease-out forwards',
+        float: 'float 4s ease-in-out infinite',
+        glow: 'glow 2s ease-in-out infinite alternate',
+        'fade-in': 'fadeIn 0.8s ease-out forwards',
         'slide-up': 'slideUp 0.6s ease-out forwards',
-        'float': 'float 6s ease-in-out infinite',
         'float-slow': 'float 8s ease-in-out infinite',
         'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
         'spin-slow': 'spin 3s linear infinite',
@@ -40,6 +43,10 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        glow: {
+          '0%': { boxShadow: '0 0 8px rgba(124, 58, 237, 0.2)', transform: 'translateY(0)' },
+          '100%': { boxShadow: '0 0 24px rgba(124, 58, 237, 0.9)', transform: 'translateY(0)' },
         },
         pulseGlow: {
           '0%, 100%': { boxShadow: '0 0 20px rgba(37, 99, 235, 0.3)' },
